@@ -1,7 +1,7 @@
 ﻿const config = {
     type: Phaser.AUTO,
-    width: window.innerWidth, // Ширина окна браузера
-    height: window.innerHeight - 60, // Высота окна браузера минус высота навбара
+    width: window.innerWidth,
+    height: window.innerHeight - 60,
     physics: {
         default: 'arcade',
         arcade: {
@@ -10,9 +10,9 @@
         }
     },
     scale: {
-        mode: Phaser.Scale.RESIZE, // Динамическое изменение размеров
+        mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
-        parent: 'game-container', // Родительский элемент
+        parent: 'game-container',
     },
     scene: {
         preload: preload,
@@ -39,28 +39,26 @@ function preload() {
 }
 
 function create() {
-    // Корабль игрока
     ship = this.physics.add.sprite(this.scale.width * 0.5, this.scale.height * 0.8, 'ship');
     ship.setCollideWorldBounds(true);
 
-    // Управление мышью
     this.input.on('pointermove', (pointer) => {
         target.x = pointer.x;
         target.y = pointer.y;
     });
 
-    // Астероиды
     asteroids = this.physics.add.group();
     createAsteroid.call(this);
 
-    // Топливо
     fuel = this.physics.add.group();
     createFuel.call(this);
 
-    // Счет
     scoreText = this.add.text(this.scale.width * 0.02, this.scale.height * 0.02, 'Score: 0', { fontSize: '14px', fill: '#fff' });
 
-    // Обработка изменения размера окна
+    // ьеьеьеь коллайдеры
+    this.physics.add.collider(ship, asteroids, hitAsteroid, null, this);
+    this.physics.add.overlap(ship, fuel, collectFuel, null, this);
+
     this.scale.on('resize', resize, this);
 }
 
@@ -68,11 +66,9 @@ function resize(gameSize, baseSize, displaySize, resolution) {
     const width = gameSize.width;
     const height = gameSize.height;
 
-    // Обновление размеров и позиций объектов
     ship.setPosition(width * 0.5, height * 0.8);
     scoreText.setPosition(width * 0.02, height * 0.02);
 
-    // Обновление камеры
     this.cameras.resize(width, height);
 }
 
@@ -104,10 +100,12 @@ function update() {
 }
 
 function hitAsteroid(ship, asteroid) {
+    if (gameOver) return;
+
     gameOver = true;
     this.physics.pause();
     ship.setTint(0xff0000);
-    scoreText.setText('Игра окончена! Счет: ' + score);
+    scoreText.setText('Иди нахуй! Счет: ' + score);
 
     fetch('/api/game/save-score', {
         method: 'POST',
@@ -119,5 +117,5 @@ function hitAsteroid(ship, asteroid) {
 function collectFuel(ship, fuelItem) {
     fuelItem.disableBody(true, true);
     score += 10;
-    scoreText.setText('Счет: ' + score);
+    scoreText.setText('Score: ' + score);
 }

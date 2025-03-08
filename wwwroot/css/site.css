@@ -26,14 +26,14 @@ body {
 
 .main-container {
     display: flex;
-    justify-content: center; /* Центрирование по горизонтали */
-    align-items: center; /* Центрирование по вертикали */
-    height: 100vh; /* Высота на весь экран */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
     background-color: transparent;
 }
 
 #game-container {
-    width: 140%; /* Ширина контейнера игры */
-    height: calc(100vh); /* Высота минус навбар */
-    background-color: #333; /* Для наглядности */
+    width: 140%;
+    height: calc(100vh);
+    background-color: #333;
 }
