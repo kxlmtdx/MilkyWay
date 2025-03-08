@@ -33,12 +33,14 @@ let gameOver = false;
 let target = { x: 400, y: 500 };
 
 function preload() {
-    this.load.image('ship', 'assets/123123323.jpg');
-    this.load.image('asteroid', 'assets/asteroid.png');
+    this.load.image('ship', 'https://i.imgur.com/jbBQMMK.png');
+    this.load.image('asteroid', 'https://i.imgur.com/guFLRFT.png');
     this.load.image('fuel', 'assets/fuel.png');
 }
 
 function create() {
+    this.cameras.main.setBackgroundColor('#141414');
+
     ship = this.physics.add.sprite(this.scale.width * 0.5, this.scale.height * 0.8, 'ship');
     ship.setCollideWorldBounds(true);
 

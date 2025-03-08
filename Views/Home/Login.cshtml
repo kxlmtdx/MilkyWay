@@ -1,0 +1,23 @@
+﻿<div class="auth-container">
+    <div class="outer-container" style="margin-top:40px">
+        <h5 style="color:#ffffff">Логин</h5>
+        <form method="get" asp-action="LoginAction" class="mb-4">
+            <div class="input-group">
+                <input name="login" type="text" id="from" placeholder="login">
+            </div>
+
+            <h5 style="color:#ffffff; margin-top: 10px">Пароль</h5>
+            <div class="input-group">
+                <input name="password" type="text" id="to" placeholder="qwerty123?">
+            </div>
+
+            @Html.AntiForgeryToken()
+            <div class="horizontal-container">
+                <button type="submit" class="search-button" style="margin-top: 12px; width: 30%">Войти</button>
+                <a asp-controller="Home" asp-action="Register" type="button" class="search-button" style="margin-top: 12px; width: 70%; text-decoration: none; color: #ffffff; text-align: center">
+                    Регистрация
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

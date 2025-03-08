@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MilkyWay</title>
+    <title>MilkyWay</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MilkyWay.styles.css" asp-append-version="true" />
@@ -21,8 +21,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @* ? *@
+                    <ul class="navbar-nav" style="margin-left: auto;">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Leaderboard">
+                                LeaderBoard
+                                <img src=" https://cdn.discordapp.com/attachments/885500264319176735/1347906219699863623/staricon.png?ex=67cd86fd&is=67cc357d&hm=19e4a204808c52056dfe08ff0c9113d1ae9a34ab2206e0b1fb7241f3378c7775&" alt="LeaderBoard Icon" style="height: 20px; margin-left: 3px;">
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Login">
+                                Sign In
+                                <img src=" https://cdn.discordapp.com/attachments/885500264319176735/1347908153542443121/profileicon.png?ex=67cd88ca&is=67cc374a&hm=c6158a42ec58b09d41b7e6b53b02cc21148333c4c0ea08f064ad5eb9a63e87e5&" alt="Profile Icon" style="height: 20px; margin-left: 3px;">
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
