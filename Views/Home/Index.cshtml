@@ -2,10 +2,13 @@
     ViewData["Title"] = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <h5 name="selfscore" style="color: #ffffff; text-align:center">Score: 0 High Score: 0</h5>
 
 <div class="main-container">
     <div id="game-container"></div>
+    <!-- Кнопка "Заново" -->
+    <button id="restart-button" style="display: none;">Заново</button>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>

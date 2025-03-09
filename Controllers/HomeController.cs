@@ -23,10 +23,22 @@ namespace MilkyWay.Controllers
             return View();
         }
 
-        [Authorize]
         public IActionResult LeaderBoard()
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                var leaderboardData = _db.Users
+                   .OrderByDescending(u => u.HighScore)
+                   .ToList();
+
+                ViewData["LeaderboardData"] = leaderboardData;
+
+                return View("LeaderBoard");
+            }
+            else
+            {
+                return View("Login");
+            }
         }
 
         public IActionResult Login()
@@ -65,11 +77,10 @@ namespace MilkyWay.Controllers
             _db.Users.Add(newUser);
             _db.SaveChanges();
 
-            return View("~/Views/Home/Index.cshtml");
+            return View("~/Views/Home/Login.cshtml");
         }
         public async Task<IActionResult> LoginAction(string login, string password)
         {
-            // Проверяем, авторизован ли пользователь
             if (HttpContext.User.Identity.IsAuthenticated)
             {
                 return View("~/Views/Home/Logout.cshtml");
@@ -92,14 +103,12 @@ namespace MilkyWay.Controllers
                 return BadRequest("Пароль неверный");
             }
 
-            // Создаем claims для пользователя
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Login),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-            // Создаем объект ClaimsIdentity
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             // Создаем аутентификационные куки
@@ -113,7 +122,7 @@ namespace MilkyWay.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            return RedirectToAction("Index"); // Перенаправляем на главную страницу
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Logout()

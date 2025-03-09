@@ -1,3 +1,38 @@
 ﻿@{
     ViewData["Title"] = "LeaderBoard";
 }
+
+    @if (ViewData["LeaderboardData"] != null)
+    {
+        var leaderboardData = ViewData["LeaderboardData"] as List<User>;
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="color: #ffffff">#</th>
+                        <th style="color: #ffffff">Аккаунт</th>
+                        <th style="color: #ffffff">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int index = 1;
+                    }
+                    @foreach (var user in leaderboardData)
+                    {
+                        <tr>
+                            <td>@index</td>
+                            <td>@user.Login</td>
+                            <td>@user.HighScore</td>
+                        </tr>
+                        index++;
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <p>Данные таблицы лидеров недоступны.</p>
+    }

@@ -28,14 +28,17 @@ let cursors;
 let asteroids;
 let fuel;
 let score = 0;
-let scoreText;
+let highScore = 0;
+let scoreDisplay;
 let gameOver = false;
 let target = { x: 400, y: 500 };
 
+const restartButton = document.getElementById('restart-button');
+
 function preload() {
-    this.load.image('ship', 'https://i.imgur.com/KJAHGlr.png');
-    this.load.image('asteroid', 'https://i.imgur.com/guFLRFT.png');
-    this.load.image('fuel', 'assets/fuel.png');
+    this.load.image('ship', 'https://i.imgur.com/TyESJam.png');
+    this.load.image('asteroid', 'https://i.imgur.com/bLsLDqP.png');
+    this.load.image('fuel', 'https://i.imgur.com/UPdZZJa.png');
 }
 
 function create() {
@@ -55,13 +58,15 @@ function create() {
     fuel = this.physics.add.group();
     createFuel.call(this);
 
-    scoreText = this.add.text(this.scale.width * 0.02, this.scale.height * 0.02, 'Score: 0', { fontSize: '14px', fill: '#fff' });
+    scoreDisplay = document.querySelector('h5[name="selfscore"]');
+    updateScoreDisplay();
 
-    // ьеьеьеь коллайдеры
     this.physics.add.collider(ship, asteroids, hitAsteroid, null, this);
     this.physics.add.overlap(ship, fuel, collectFuel, null, this);
 
     this.scale.on('resize', resize, this);
+
+    fetchHighScore();
 }
 
 function resize(gameSize, baseSize, displaySize, resolution) {
@@ -69,9 +74,9 @@ function resize(gameSize, baseSize, displaySize, resolution) {
     const height = gameSize.height;
 
     ship.setPosition(width * 0.5, height * 0.8);
-    scoreText.setPosition(width * 0.02, height * 0.02);
-
-    this.cameras.resize(width, height);
+    if (scoreDisplay) {
+        scoreDisplay.style.textAlign = 'center';
+    }
 }
 
 function createAsteroid() {
@@ -100,10 +105,35 @@ function update() {
 
     this.physics.moveToObject(ship, target, 200);
 
-    // Вычисляем угол между кораблем и курсором ААААААААААААА
     const angle = Phaser.Math.RadToDeg(Math.atan2(target.y - ship.y, target.x - ship.x));
+    ship.setRotation(Phaser.Math.DegToRad(angle + 90));
+}
 
-    ship.setRotation(Phaser.Math.DegToRad(angle + 90)); // +90 чтобы верхняя грань смотрела на курсор
+function updateScoreDisplay() {
+    if (scoreDisplay) {
+        if (highScore > 0) {
+            scoreDisplay.textContent = `Score: ${score} High Score: ${highScore}`;
+        } else {
+            scoreDisplay.textContent = `Score: ${score}`;
+        }
+    }
+}
+
+async function fetchHighScore() {
+    try {
+        const response = await fetch('/api/game/get-high-score');
+        const data = await response.json();
+        highScore = data.highScore || 0;
+        updateScoreDisplay();
+    } catch (error) {
+        console.error('Ошибка при получении рекорда:', error);
+    }
+}
+
+function collectFuel(ship, fuelItem) {
+    fuelItem.disableBody(true, true);
+    score += 10;
+    updateScoreDisplay();
 }
 
 function hitAsteroid(ship, asteroid) {
@@ -112,18 +142,21 @@ function hitAsteroid(ship, asteroid) {
     gameOver = true;
     this.physics.pause();
     ship.setTint(0xff0000);
-    scoreText.setText('Иди нахуй! Счет: ' + score);
+    updateScoreDisplay();
+
+    restartButton.style.display = 'block';
 
     fetch('/api/game/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ score: score }) // score — переменная с вашим счетом
+        body: JSON.stringify({ score: score })
     })
         .then(response => response.json())
         .then(data => {
             console.log('Успешно:', data);
             if (data.highScore !== undefined) {
-                alert(`Ваш рекорд: ${data.highScore}`);
+                highScore = data.highScore;
+                updateScoreDisplay();
             }
         })
         .catch(error => {
@@ -131,8 +164,10 @@ function hitAsteroid(ship, asteroid) {
         });
 }
 
-function collectFuel(ship, fuelItem) {
-    fuelItem.disableBody(true, true);
-    score += 10;
-    scoreText.setText('Score: ' + score);
-}
+restartButton.addEventListener('click', () => {
+    restartButton.style.display = 'none';
+    gameOver = false;
+    score = 0;
+    updateScoreDisplay();
+    game.scene.getScene('default').scene.restart();
+});

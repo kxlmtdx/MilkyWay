@@ -109,6 +109,23 @@ body {
         background-color: #7383ae;
     }
 
+.logout-button {
+    background-color: #dc6b6b;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    flex: 1 1 100%;
+    transition: background-color 0.3s ease;
+}
+
+    .logout-button:hover {
+        background-color: #d0344e;
+    }
+
+
 /* Адаптация для мобилок */
 @media (max-width: 600px) {
     .input-group {
@@ -118,4 +135,104 @@ body {
     .search-button {
         flex: 1 1 100%;
     }
+}
+
+#restart-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #e31e1e;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* Чтобы кнопка была поверх игры */
+    display: none; /* По умолчанию скрыта */
+    transition: background-color 0.3s ease;
+}
+
+/* Основные стили для таблицы */
+.table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Отступ между строками */
+    background-color: transparent;
+    font-family: 'Arial', sans-serif; /* Минималистичный шрифт */
+}
+
+    /* Стили для строк таблицы */
+    .table tbody tr {
+        background-color: #1f1f1f; /* Полупрозрачный фон строк */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+        transition: transform 0.2s ease, box-shadow 0.2s ease; /* Плавные переходы */
+    }
+
+        /* Закругление углов для первой и последней ячейки в строке */
+        .table tbody tr td:first-child {
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .table tbody tr td:last-child {
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        /* Эффект при наведении на строку */
+        .table tbody tr:hover {
+            transform: translateY(-2px); /* Лёгкий подъём */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Увеличенная тень */
+        }
+
+    /* Стили для ячеек и заголовков */
+    .table td, .table th {
+        padding: 12px 16px; /* Отступы внутри ячеек */
+        vertical-align: middle; /* Выравнивание по центру */
+        border: none; /* Убираем границы */
+        color: #ffffff; /* Белый текст */
+        font-size: 14px; /* Размер шрифта */
+    }
+
+    /* Стили для заголовков */
+    .table th {
+        font-weight: 600; /* Полужирный шрифт для заголовков */
+        background-color: transparent; /* Лёгкий фон для заголовков */
+        text-transform: uppercase; /* Заглавные буквы */
+        letter-spacing: 0.5px; /* Лёгкий межбуквенный интервал */
+    }
+
+    /* Стили для первой колонки (номер) */
+    .table td:first-child {
+        font-weight: 500; /* Лёгкий акцент на номере */
+        color: rgba(255, 255, 255, 0.8); /* Полупрозрачный текст */
+    }
+
+/* Стили для контейнера таблицы */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+    /* Убираем лишние отступы у таблицы внутри контейнера */
+    .table-responsive table {
+        margin-bottom: 0;
+    }
+
+/* Стили для текста, если данные недоступны */
+.container p {
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.custom-toggler-icon {
+    width: 24px; /* Ширина иконки */
+    height: 24px; /* Высота иконки */
+    filter: brightness(0) invert(1); /* Опционально: изменить цвет иконки на белый */
 }

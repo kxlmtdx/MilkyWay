@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MilkyWay.styles.css" asp-append-version="true" />
+    <link rel="icon" href="@Url.Content("https://i.pinimg.com/736x/15/12/0c/15120c676825d2de879c55e16f95c8dd.jpg")" type="image/x-icon" />
 </head>
 <body>
     <header>
@@ -18,12 +19,13 @@
                     </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    <!-- Заменяем стандартную иконку на кастомную -->
+                    <img src="https://i.imgur.com/3e9qnwu.png" alt="Menu" class="custom-toggler-icon">
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav" style="margin-left: auto;">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Leaderboard">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="LeaderBoard">
                                 LeaderBoard
                                 <img src=" https://cdn.discordapp.com/attachments/885500264319176735/1347906219699863623/staricon.png?ex=67cd86fd&is=67cc357d&hm=19e4a204808c52056dfe08ff0c9113d1ae9a34ab2206e0b1fb7241f3378c7775&" alt="LeaderBoard Icon" style="height: 20px; margin-left: 3px;">
                             </a>
