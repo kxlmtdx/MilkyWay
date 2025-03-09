@@ -37,3 +37,85 @@ body {
     height: calc(100vh);
     background-color: #333;
 }
+
+.horizontal-container {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Горизонтальная прокрутка */
+    scroll-snap-type: x mandatory; /* Привязка к карточкам при прокрутке */
+    padding: 10px 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+    .horizontal-container::-webkit-scrollbar {
+        display: none;
+    }
+
+.horizontal-container {
+    -ms-overflow-style: none; /* IE и Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.auth-container {
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.outer-container {
+    background-color: #1f1f1f;
+    border-radius: 20px;
+    padding: 20px; /* Внутренний отступ */
+    max-width: 800px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-group {
+    flex: 1 1 calc(33.333% - 20px); /* Три поля в строке на ПК */
+    display: flex;
+    flex-direction: column;
+}
+
+    .input-group label {
+        font-size: 14px;
+        color: #ffffff;
+        margin-bottom: 5px;
+    }
+
+    .input-group input {
+        padding: 4px;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 100%;
+        background-color: #ffffff;
+        outline: none;
+    }
+
+
+.search-button {
+    background-color: #c7cfec;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    flex: 1 1 100%;
+    transition: background-color 0.3s ease;
+}
+    .search-button:hover {
+        background-color: #7383ae;
+    }
+
+/* Адаптация для мобилок */
+@media (max-width: 600px) {
+    .input-group {
+        flex: 1 1 100%;
+    }
+
+    .search-button {
+        flex: 1 1 100%;
+    }
+}

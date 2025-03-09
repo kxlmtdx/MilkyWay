@@ -33,7 +33,7 @@ let gameOver = false;
 let target = { x: 400, y: 500 };
 
 function preload() {
-    this.load.image('ship', 'https://i.imgur.com/jbBQMMK.png');
+    this.load.image('ship', 'https://i.imgur.com/KJAHGlr.png');
     this.load.image('asteroid', 'https://i.imgur.com/guFLRFT.png');
     this.load.image('fuel', 'assets/fuel.png');
 }
@@ -98,7 +98,14 @@ function createFuel() {
 function update() {
     if (gameOver) return;
 
+    // Двигаем корабль к курсору
     this.physics.moveToObject(ship, target, 200);
+
+    // Вычисляем угол между кораблем и курсором
+    const angle = Phaser.Math.RadToDeg(Math.atan2(target.y - ship.y, target.x - ship.x));
+
+    // Устанавливаем угол поворота корабля
+    ship.setRotation(Phaser.Math.DegToRad(angle + 90)); // +90 чтобы верхняя грань смотрела на курсор
 }
 
 function hitAsteroid(ship, asteroid) {
