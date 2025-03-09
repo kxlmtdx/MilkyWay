@@ -1,5 +1,27 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Register";
 }
+
+<div class="auth-container">
+    <div class="outer-container" style="margin-top:40px">
+        <form method="post" asp-action="RegisterAction" class="mb-4">
+            <h5 style="color:#ffffff; margin-top: 10px">Логин</h5>
+            <div class="input-group">
+                <input name="regLogin" type="text" id="regLogin" placeholder="login">
+            </div>
+
+            <h5 style="color:#ffffff; margin-top: 10px">Пароль</h5>
+            <div class="input-group">
+                <input name="regPassword" type="password" id="regPassword" placeholder="qwerty123">
+            </div>
+
+            <h5 style="color:#ffffff; margin-top: 10px">Подтвердите пароль</h5>
+            <div class="input-group">
+                <input name="confirmPassword" type="password" id="confirmPassword" placeholder="again qwerty123">
+            </div>
+
+            @Html.AntiForgeryToken()
+            <button type="submit" class="search-button" style="margin-top: 12px; width: 100%">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>

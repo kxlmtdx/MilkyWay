@@ -31,7 +31,11 @@ namespace MilkyWay.Controllers
 
         public IActionResult Login()
         {
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return View("~/Views/Home/Logout.cshtml");
+            }
+            else return View();
         }
 
         public IActionResult Register()
@@ -39,23 +43,23 @@ namespace MilkyWay.Controllers
             return View();
         }
 
-        public IActionResult RegisterAction(string reglogin, string regpassword, string secondregpassword)
+        public IActionResult RegisterAction(string regLogin, string regPassword, string confirmPassword)
         {
-            var user = _db.Users.FirstOrDefault(w => w.Login == reglogin);
+            var user = _db.Users.FirstOrDefault(w => w.Login == regLogin);
             if (user != null) 
             {
                 return BadRequest("Аккаунт с таким логином уже существует!");
             }
 
-            if (regpassword != secondregpassword)
+            if (regPassword != confirmPassword)
             {
                 return BadRequest("Пароли не совпадают");
             }
 
             var newUser = new User()
             {
-                Login = reglogin,
-                Password = regpassword,
+                Login = regLogin,
+                Password = regPassword,
             };
 
             _db.Users.Add(newUser);
@@ -65,6 +69,12 @@ namespace MilkyWay.Controllers
         }
         public async Task<IActionResult> LoginAction(string login, string password)
         {
+            // Проверяем, авторизован ли пользователь
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return View("~/Views/Home/Logout.cshtml");
+            }
+
             if (string.IsNullOrEmpty(login))
             {
                 return BadRequest("Ты логин напиши хотя бы");
@@ -105,10 +115,11 @@ namespace MilkyWay.Controllers
 
             return RedirectToAction("Index"); // Перенаправляем на главную страницу
         }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index");
+            return View("~/Views/Home/Index.cshtml");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

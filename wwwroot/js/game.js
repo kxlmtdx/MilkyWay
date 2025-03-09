@@ -98,13 +98,11 @@ function createFuel() {
 function update() {
     if (gameOver) return;
 
-    // Двигаем корабль к курсору
     this.physics.moveToObject(ship, target, 200);
 
-    // Вычисляем угол между кораблем и курсором
+    // Вычисляем угол между кораблем и курсором ААААААААААААА
     const angle = Phaser.Math.RadToDeg(Math.atan2(target.y - ship.y, target.x - ship.x));
 
-    // Устанавливаем угол поворота корабля
     ship.setRotation(Phaser.Math.DegToRad(angle + 90)); // +90 чтобы верхняя грань смотрела на курсор
 }
 
@@ -119,8 +117,18 @@ function hitAsteroid(ship, asteroid) {
     fetch('/api/game/save-score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ score: score })
-    });
+        body: JSON.stringify({ score: score }) // score — переменная с вашим счетом
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Успешно:', data);
+            if (data.highScore !== undefined) {
+                alert(`Ваш рекорд: ${data.highScore}`);
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
 }
 
 function collectFuel(ship, fuelItem) {

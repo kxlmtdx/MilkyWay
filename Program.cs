@@ -1,5 +1,6 @@
 using MilkyWay.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies; // Добавьте этот using
 
 namespace MilkyWay
 {
@@ -12,8 +13,17 @@ namespace MilkyWay
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Добавляем контекст базы данных
             builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
                 builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            // Добавляем аутентификацию с использованием куки
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Home/Login"; // Путь для перенаправления на страницу входа
+                    options.AccessDeniedPath = "/Home/AccessDenied"; // Путь для перенаправления при отказе в доступе
+                });
 
             var app = builder.Build();
 
@@ -29,6 +39,9 @@ namespace MilkyWay
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            // Включаем аутентификацию (должно быть перед UseAuthorization)
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
